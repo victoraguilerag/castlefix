@@ -14,3 +14,14 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
+:root {
+  --palette-1: brown;
+  --palette-2: brown;
+  --palette-3: brown;
+  --palette-4: brown;
+  --palette-5: brown;
+  --palette-extra-1: lightgray;
+  --palette-extra-2: fff6e5;
+}

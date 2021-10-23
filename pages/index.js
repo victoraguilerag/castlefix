@@ -1,8 +1,70 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import UserIcon from './icons/user'
+import PlusIcon from './icons/plus'
+import Form from './components/form'
+
+const transactionsPreloaded = [
+  {
+    type: 'expense',
+    description: 'Lampara',
+    price: 2000
+  },
+  {
+    type: 'expense',
+    description: 'Tacos',
+    price: 15000
+  },
+  {
+    type: 'balance',
+    description: 'Burritos',
+    price: 4500 
+  },
+  {
+    type: 'balance',
+    description: 'Tacos',
+    price: 15000
+  },
+  {
+    type: 'investments',
+    description: 'Burritos',
+    price: 4500 
+  },
+  {
+    type: 'investments',
+    description: 'Tacos',
+    price: 15000
+  },
+  {
+    type: 'balance',
+    description: 'Burritos',
+    price: 4500 
+  }
+];
 
 export default function Home() {
+  const [active, SetActive] = useState(false);
+  const [form, setForm] = useState({})
+  const [mode, setMode] = useState('graph');
+  const [transactions, setTransactions] = useState(transactionsPreloaded);
+  const dollarsFormat = Intl.NumberFormat('en-US');
+
+  const handleAdd = () => setMode('add');
+  const handleExit = (values) => {
+    setForm(values);
+    setMode('graph')
+    console.log('values')
+    console.log(values)
+    setTransactions([{
+        price: values.price,
+        description: values.name,
+        type: values.type
+      },
+      ...transactions
+    ]);
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -11,58 +73,75 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <header className={styles.header}>
+        <h1>Welcome</h1>
+        <button className={styles.menu}>
+          <UserIcon />
+        </button>
+      </header>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+      <main>
+        {
+          mode === 'add' && (
+            <Form onExit={handleExit}/>
+          )
+        }
       </main>
-
+      {
+        mode !== 'add' && (
+          <aside className={styles.main}>
+            {/* Resumen */}
+            <div className={styles.resume}>
+              {/* <label>Resume</label> */}
+              <div className={styles.resumeChart}>
+                <div className={styles.expense}>
+                  <h3>20.000</h3>
+                  <div>Expenses</div>
+                </div>
+                <div className={styles.investments}>
+                  <h3>5.000</h3>
+                  <div>Investments</div>
+                </div>
+                <div className={styles.balance}>
+                  <h3>18.000</h3>
+                  <div>Balance</div>
+                </div>
+              </div>
+            </div>
+            {/* Lista de transacciones */}
+            <div className={styles.transactions}>
+              <div className={styles.transaction}>
+                <div className={styles.transactionLabel}>Ultimo movimiento</div>
+                <div className={`${styles.transactionCard} ${styles[`color-${transactions[0].type}`]}`}>
+                  <div className={styles.price}>{dollarsFormat.format(transactions[0].price)}</div>
+                  <div className={styles.description}>{transactions[0].description}</div>
+                </div>
+              </div>
+              <div className={styles.divider} />
+              {
+                transactions
+                .slice(1)
+                .map((transaction, i) => (
+                  <div key={transaction.description + i} className={styles.transaction}>
+                    <div className={`${styles.transactionCard} ${styles[`color-${transaction.type}`]}`}>
+                      <div className={styles.price}>{dollarsFormat.format(transaction.price)}</div>
+                      <div className={styles.description}>{transaction.description}</div>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+            {/* New transaction button */}
+            <div className={`${styles.addTransaction} ${active ? '' : styles.deactive}`} onClick={() => SetActive(!active)}>
+              <div className={styles.actionLabel}>Nuevo movimiento</div>
+              <button className={styles.action} onClick={handleAdd}>
+                <PlusIcon />
+              </button>
+            </div>
+          </aside>
+        )
+      }
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
       </footer>
     </div>
   )

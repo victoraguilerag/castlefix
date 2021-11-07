@@ -138,7 +138,7 @@ function Form ({
                 <div className={homeStyles.options}>
                     {
                         steps.map(step => (
-                            <Fragment>
+                            <Fragment key={values[step]}>
                                 {
                                     values[step] && (
                                         <div
@@ -174,6 +174,7 @@ function Form ({
                     {
                         types.map((type) => (
                             <div
+                                key={type}
                                 className={`
                                     ${homeStyles.transaction}
                                     ${values.type && values.type !== type ? homeStyles.deactive : ''}
@@ -206,6 +207,7 @@ function Form ({
                     {
                         methods.map((method) => (
                             <div
+                                key={method}
                                 className={`
                                     ${homeStyles.transaction}
                                     ${values.method && values.method !== method ? homeStyles.deactive : ''}
@@ -231,6 +233,7 @@ function Form ({
                     {
                         periods.map((period) => (
                             <div
+                                key={period}
                                 className={`
                                     ${homeStyles.transaction}
                                     ${values.period && values.period !== period ? homeStyles.deactive : ''}
@@ -285,7 +288,7 @@ function Form ({
                 <div className={homeStyles.icons}>
                     <div className={homeStyles.iconText}>Pick an icon for your transaction</div>
                     {
-                        icons.map(iconId => <Icons icon={iconId} active={values.icon === iconId} handleIcon={handleIcon} />)
+                        icons.map(iconId => <Icons key={iconId} icon={iconId} active={values.icon === iconId} handleIcon={handleIcon} />)
                     }
                 </div>
             </div>

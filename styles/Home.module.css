@@ -33,10 +33,14 @@
   background: white;
   display: flex;
   justify-content: center;
-  overflow: scroll;
+  overflow: hidden;
   align-items: flex-start;
   padding-top: 20vh;
   scroll-snap-type: y mandatory;
+}
+
+.container main.form {
+  overflow: scroll;
 }
 
 .header {
@@ -330,12 +334,27 @@
   fill: lightseagreen;
 }
 
+.transactionCard svg.icon-balance {
+  fill: var(--palette-7);
+}
+
+.transactionCard svg.icon-investments {
+  fill: var(--palette-4);
+}
+
+.transactionCard svg.icon-expense {
+  fill: var(--palette-6);
+}
+
 .transaction svg {
   position: absolute;
   right: 24px;
   top: 32px;
   fill: lightseagreen;
 }
+
+
+
 
 
 .transaction {

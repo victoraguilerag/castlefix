@@ -5,14 +5,14 @@ import Savings from '../icons/savings';
 import Wallet from '../icons/wallet';
 import Celebration from '../icons/celebration';
 
-const Icons = ({ icon, handleIcon, active }) => {
+const Icons = ({ icon, handleIcon, active, type }) => {
     switch(icon) {
-        case 'camera': return (<Camera active={active} onClick={() => handleIcon(icon)} />);
-        case 'pets': return (<Pets active={active} onClick={() => handleIcon(icon)} />);
-        case 'restaurant': return (<Restaurant active={active} onClick={() => handleIcon(icon)} />);
-        case 'savings': return <Savings active={active} onClick={() => handleIcon(icon)} />;
-        case 'wallet': return <Wallet active={active} onClick={() => handleIcon(icon)} />;
-        case 'celebration': return <Celebration active={active} onClick={() => handleIcon(icon)} />;
+        case 'camera': return (<Camera active={active} onClick={() => handleIcon(icon)} color={type} />);
+        case 'pets': return (<Pets active={active} onClick={() => handleIcon(icon)} color={type} />);
+        case 'restaurant': return (<Restaurant active={active} onClick={() => handleIcon(icon)} color={type} />);
+        case 'savings': return <Savings active={active} onClick={() => handleIcon(icon)} color={type} />;
+        case 'wallet': return <Wallet active={active} onClick={() => handleIcon(icon)} color={type} />;
+        case 'celebration': return <Celebration active={active} onClick={() => handleIcon(icon)} color={type} />;
         default: return (<div />)
     }
 }
